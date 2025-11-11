@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    stack<int>st;
+
+    int n, val;
+    cin>>n;
+    for(int i=0; i<n; i++)
+    {
+        cin>>val;
+        st.push(val);
+    }
+
+    while(!st.empty())
+    {
+        cout<<st.top()<<" ";
+        st.pop();
+    }
+    cout<<endl;
+    
+    
+    return 0;
+}

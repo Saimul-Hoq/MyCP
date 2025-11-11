@@ -1,0 +1,15 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+    int arr[5];
+
+    for(int i=0; i<5; i++)
+    {
+        cin>>arr[i];
+    }
+    int n=arr.size();
+    cout<<n<<endl;
+    return 0;
+}
