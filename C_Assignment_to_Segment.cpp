@@ -1,0 +1,100 @@
+#include<bits/stdc++.h>
+using namespace std;       //_________(1 + 0.01)^365 = 38____________||
+#define endl "\n"             
+typedef long long ll;      //_________(1 - 0.01)^365 = 0.02__________||         
+
+int const mx = 1e5+5;
+ll arr[mx];
+ll tree[4*mx], lazy[4*mx], serial[4*mx];
+
+void push(int i, int b, int e)
+{
+    if(lazy[i]==-1) return;
+
+    tree[i] = lazy[i];
+    if(b!=e)
+    {
+        int l = 2*i, r = l+1;
+        if(serial[l]<serial[i]) 
+        {
+            lazy[l] = lazy[i];
+            serial[l] = serial[i];
+        }
+        if(serial[r]<serial[i])
+        {
+            lazy[r] = lazy[i];
+            serial[r] = serial[i];
+        }
+    }
+    lazy[i]= -1;
+}
+
+
+void segment_update(int i, int b, int e, int ub, int ue, ll val, int srl)
+{
+    push(i, b, e);
+    if(ue<b || e<ub) return;
+    if(ub<=b && e<=ue)
+    {
+        lazy[i] = val;
+        serial[i] = srl;
+        push(i, b, e);
+        return;
+    }
+
+    int mid = b + (e-b)/2;
+    int l=2*i, r=2*i+1;
+    segment_update(l, b, mid, ub, ue, val, srl);
+    segment_update(r, mid+1, e, ub, ue, val, srl);
+    
+}
+
+ll segment_query(int i, int b, int e, int qb, int qe)
+{
+    push(i, b, e);
+    if(e<qb || qe<b) return 0;
+    if(qb==b && e==qe) return tree[i];
+
+    int mid = b + (e-b)/2;
+    int l = 2*i, r = 2*i+1;
+    return (segment_query(l, b, mid, qb, qe) + segment_query(r, mid+1, e, qb, qe));
+}
+
+void saim()
+{
+    int n,m;
+    cin>>n>>m;
+    memset(lazy, -1, sizeof(lazy));
+    for(int i=1; i<=m; i++)
+    {
+        int c;
+        cin>>c;
+        if(c==1)
+        {
+            ll l,r,v;
+            cin>>l>>r>>v;
+            l++;
+            segment_update(1,1,n,l,r,v,i);
+        }
+        else
+        {
+            int l;
+            cin>>l;
+            l++;
+            cout<<segment_query(1,1,n,l,l)<<endl;
+        }
+    }
+}
+
+int main()
+{
+    
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+
+    saim();
+    
+    
+    return 0;
+}
