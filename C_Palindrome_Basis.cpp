@@ -2,7 +2,7 @@
 using namespace std;       //_________(1 + 0.01)^365 = 38____________||
 #define endl "\n"             
 typedef long long ll;      //_________(1 - 0.01)^365 = 0.02__________||    
-ll const mod = 109+7;   
+ll const mod = 1e9+7;   
 
 int n;
 vector<int>arr;
@@ -44,19 +44,16 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    for(int i=1; i<=40000; i++)
+    for(int i=1; i<=4e4; i++)
     {
         string s = to_string(i);
-        bool check = true;
-        for(int i=0, j=s.size()-1; i<=j; i++,j--)
+        string t = s;
+        reverse(t.begin(), t.end());
+        if(s==t)
         {
-            if(s[i]!=s[j])
-            {
-                check=false;
-                break;
-            }
+            arr.push_back(i);
         }
-        if(check) arr.push_back(i);
+        
     }
     memset(dp, -1, sizeof(dp));
    
